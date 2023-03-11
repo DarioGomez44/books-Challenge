@@ -70,12 +70,27 @@ const mainController = {
   },
   edit: (req, res) => {
     // Implement edit book
-    res.render('editBook', {id: req.params.id})
+    db.Book.findByPk(req.params.id)
+    .then((bookToUpdate)=>{
+      res.render('editBook',{bookToUpdate, id: req.params.id})
+    })
+    .catch((e)=> console.log(e))
   },
   processEdit: (req, res) => {
     // Implement edit book
-    res.render('home');
-  }
+    db.Book.update(
+      {  
+        title: req.body.title,
+        cover:  req.body.cover,
+        description: req.body.description,
+   
+      }, 
+      {
+          where : {id:req.params.id}
+      })
+        .then(()=> { res.redirect('/')})
+       .catch((e)=> console.log(e))
+  },
 };
 
 module.exports = mainController;

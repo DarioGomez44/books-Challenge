@@ -10,6 +10,7 @@
 <body>
   <div class="container">
     <%- include('partials/header.ejs') %>
+
     <div class="container">
       <div class="px-4 py-5 my-5 text-center">
         <img class="d-block mx-auto mb-4" src= <%= locals.book.cover %> alt="" width="172" height="257">
@@ -25,10 +26,18 @@
           <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
 
 
-            <button type="button" class="btn btn-primary btn-lg px-4 gap-3">Edit</button>
-            <button type="button" class="btn btn-outline-secondary btn-lg px-4">Delete</button>
 
+            <form action="/books/edit/<%= locals.book.id %>">
+              <button type="submit"  class="btn btn-primary btn-lg px-4 gap-3">edit</button>
+            </form>
 
+            <form  action="/books/<%= locals.book.id %>/?_method=DELETE" method="POST" enctype="multipart/form-data">
+              <button type="submit" class="btn btn-outline-secondary btn-lg px-4">Delete</button>
+            </form>
+              
+          </div>
+            
+           
           </div>
         </div>
       </div>
