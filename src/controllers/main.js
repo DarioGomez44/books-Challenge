@@ -13,10 +13,11 @@ const mainController = {
   },
   bookDetail: (req, res) => {
     // Implement look for details in the database
-    db.Book.findByPk(req,params,id, {includ : [{association: 'authors'}]})
+    db.Book.findByPk(req.params.id, {include : [{association: 'authors'}]})
      .then((book)=>{
       res.render('bookDetail', { book})
-     }).catch((e)=> console.log(e))
+     })
+     .catch((e)=> console.log(e))
   },
   bookSearch: (req, res) => {
     res.render('search', { books: [] });
@@ -38,7 +39,10 @@ const mainController = {
   },
   authorBooks: (req, res) => {
     // Implement books by author
-    res.render('authorBooks');
+    db.Author.findByPk(req.params.id, {include : [{association: 'books'}]})
+    .then((author) => {
+      res.render('authorBooks', {author});
+     }).catch((e)=> console.log(e))
   },
   register: (req, res) => {
     res.render('register');
