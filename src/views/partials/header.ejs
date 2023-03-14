@@ -11,8 +11,22 @@
     </ul>
 
     <div class="col-md-3 text-end">
-      <a href="/users/login" class="btn btn-outline-primary me-2">Login</a>
+      <% if ( !locals.message && locals.message != '') { %>
+        <a href="/users/login" class="btn btn-outline-primary me-2">Login</a>
+      <% } else { %>
+      
+        <a href="/users/logout" class="btn btn-outline-primary me-2">Logout</a>
+      <% }  %>
+      <% if (!locals.message) { %>
       <a href="/users/register" class="btn btn-outline-primary me-2">Sign-up</a>
+      <% } else { %>
+      <% }  %>
+
+    </div>
+    <div>
+      <% if (locals.message) { %>
+        <p style="font-size: 25px;"> <%= message.success %>  </p>
+      <% } %>
     </div>
   </header>
 </div>

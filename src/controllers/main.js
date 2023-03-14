@@ -1,7 +1,7 @@
 const bcryptjs = require('bcryptjs');
 const db = require('../database/models');
 const {Sequelize}= require('../database/models');
-const Op = Sequelize.op
+const Op = Sequelize.Op
 
 
 const mainController = {
@@ -10,7 +10,7 @@ const mainController = {
       include: [{ association: 'authors' }]
     })
       .then((books) => {
-        res.render('home', { books });
+        res.render('home',  { books, message: req.session.message });
       })
       .catch((error) => console.log(error));
   },
@@ -18,7 +18,7 @@ const mainController = {
     // Implement look for details in the database OK
     db.Book.findByPk(req.params.id, {include : [{association: 'authors'}]})
      .then((book)=>{
-      res.render('bookDetail', { book})
+      res.render('bookDetail', { book , message: req.session.message})
      })
      .catch((e)=> console.log(e))
   },
@@ -30,16 +30,21 @@ const mainController = {
     db.Book.findAll({ include: [{ association: "authors" }],
     where: {
       title: {
-         [Sequelize.Op.like]: '%'+ req.body.title +'%'}}})
-    
-      .then((books) => {
+         [Sequelize.Op.like]: '%'+ req.body.title +'%'}}}
+         )
+    .then((books) => {
       res.render("search", { books});
     }).catch((e) => console.log(e));
   },
   deleteBook: (req, res) => {
     // Implement delete book OK
-    db.Book.destroy({
-      where: { id: req.params.id },
+    //tube que hacer un ALTER TABLE `booksauthors` DROP CONSTRAINT `booksauthors_ibfk_2`;
+
+    db.Book.destroy({ 
+     
+      where: { 
+        id:  req.params.id 
+      }
     })
       .then(() => {
         res.redirect('/');
@@ -49,7 +54,7 @@ const mainController = {
   authors: (req, res) => {
     db.Author.findAll()
       .then((authors) => {
-        res.render('authors', { authors });
+        res.render('authors', {authors, message: req.session.message  });
       })
       .catch((error) => console.log(error));
   },
@@ -79,33 +84,62 @@ const mainController = {
   login: (req, res) => {
     // Implement login process
     
-    res.render('login');
-  },
-
-  logout: (req, res )=>{
+      res.render("login", { email:""} );
 
   },
-  processLogin: (req, res) => {
-    // Implement login process
 
 
+ processLogin: (req, res) => {
+ // Implement login process
+  const emailOk = req.body.email
+   const passwordOk = req.body.password
+  
+    
+    const userFound = db.User.findOne({
+      where: {
+        email: emailOk,
+      }
+    });
 
+    userFound.then( user => {
+      if(user){
 
+        let comparePassword = bcryptjs.compareSync( passwordOk, user.Pass);
 
+        if (comparePassword) {
+          req.session.message = {
+             success: `HI ${user.Name} `,
+             rol: `${user.CategoryId }`, 
+          }    
 
-
-
-    res.render('home');
+        res.redirect('/')
+        } else {
+          req.session.message = {
+            error: `Email o password incorrecto`
+          }  
+          res.render("login", { email: req.cookies.usuario, message:req.session.message });
+        }
+      }else{
+        req.session.message = {
+          error: `Email o password incorrecto`
+        }  
+        res.render("login", { email: req.cookies.usuario, message:req.session.message });
+      }
+    })
   },
 
-
-
+  logout:(req , res) =>{
+    req.session.destroy();
+    res.redirect('/')
+ },
+  
 
   edit: (req, res) => {
     // Implement edit book   OK
-    db.Book.findByPk(req.params.id)
-    .then((bookToUpdate)=>{
-      res.render('editBook',{bookToUpdate, id: req.params.id})
+    let id = req.params.id
+    db.Book.findByPk(id)
+    .then((book)=>{
+      res.render('editBook', { book, message: req.session.message})
     })
     .catch((e)=> console.log(e))
   },

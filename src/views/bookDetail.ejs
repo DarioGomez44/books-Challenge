@@ -25,16 +25,13 @@
           <p class="lead mb-4"><%= locals.book.description %></p>  
           <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
 
-
-
-            <form action="/books/edit/<%= locals.book.id %>">
-              <button type="submit"  class="btn btn-primary btn-lg px-4 gap-3">edit</button>
-            </form>
-
-            <form  action="/books/<%= locals.book.id %>/?_method=DELETE" method="POST" enctype="multipart/form-data">
-              <button type="submit" class="btn btn-outline-secondary btn-lg px-4">Delete</button>
-            </form>
-              
+            <% if (locals.message && message.rol == 1) { %>
+          
+              <a href="/books/edit/<%= book.id %>" class="btn btn-primary btn-lg px-4 gap-3">Edit</a>
+              <form action="/books/<%= book.id %>?_method=DELETE" method="post">
+                <button type="submit" class="btn btn-outline-secondary btn-lg px-4">Delete</button>
+              </form>
+              <% } %>  
           </div>
             
            

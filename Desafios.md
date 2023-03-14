@@ -7,12 +7,12 @@
 
 <!-- Eliminacion de libros: Implementar el boton de eliminacion en el detalle de libros, tener en cuenta que solo los usuarios administradores pueden realizar esta accion. -->
 
-Iniciar sesión y cerrar sesión: Implementar la funcionalidad de inicio de sesión. Tener en cuenta:
-El email debe estar registrado en la base de datos.
+<!-- Iniciar sesión y cerrar sesión: Implementar la funcionalidad de inicio de sesión. Tener en cuenta:
+El email debe estar registrado en la base de datos. -->
 
-La contraseña debe ser la misma que la que guardamos en la base de datos (recordar que las contraseñas se guardan cifradas asi que deberemos hacer lo mismo para poder compararlas).
-
+<!-- La contraseña debe ser la misma que la que guardamos en la base de datos (recordar que las contraseñas se guardan cifradas asi que deberemos hacer lo mismo para poder compararlas). -->
+<!-- 
 Al estar logueado debemos ver un botón de logout en lugar del botón de login que cerrará nuestra sesion.
-Usar cookies para recordar al usuario logueado.
+Usar cookies para recordar al usuario logueado. -->
 
-Distinguir entre usuarios estándar y administradores cuando corresponda según lo mencionado en puntos anteriores.
+<!-- Distinguir entre usuarios estándar y administradores cuando corresponda según lo mencionado en puntos anteriores. -->

@@ -7,7 +7,7 @@ const cookieParser = require("cookie-parser");
 const app = express();
 
 app.use(cookieParser ())
-app.use(session({ secret: "shhhh", resave: false, saveUninitialized: false, }));
+app.use(session({ secret: "It's a secret" , resave: false, saveUninitialized: false, }));
 app.use(methodOVerride('_method'))
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
